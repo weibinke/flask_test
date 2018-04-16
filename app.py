@@ -6,16 +6,17 @@ from flask_admin.contrib.sqla import ModelView
 
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:weibin@119.28.135.135:3306/test_flask?charset=utf8mb4'
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-app.secret_key = '123456'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:weibin@119.28.135.135:3306/test_flask?charset=utf8mb4'
+#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+#app.secret_key = '123456'
 
+app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
-admin = Admin(app, name='microblog', template_mode='bootstrap3')
+admin = Admin(app, name = app.config['ADMIN_TITLE'], template_mode='bootstrap3')
 
 
 class User(db.Model):
