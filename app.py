@@ -3,19 +3,10 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-import time
-
 app = Flask(__name__, instance_relative_config=True)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/users.db'
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:weibin@119.28.135.135:3306/test_flask?charset=utf8mb4'
-#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-#app.secret_key = '123456'
 
 app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
@@ -45,7 +36,6 @@ def index():
 
 @app.route("/hello")
 def hello():
-    t = time.time()
     maxid = db.session.query(User).order_by(User.id.desc()).first()
     if maxid:
         newid = maxid.id + 1
